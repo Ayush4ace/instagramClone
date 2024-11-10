@@ -1,6 +1,7 @@
 //sign up
 
 import { User } from "../models/user.models.js";
+import { Post } from "../models/post.models.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
@@ -70,6 +71,16 @@ export const login = async (req, res) => {
       expiresIn: "1d",
     });
 
+    const populatePost = await Promise.all(
+      user.posts.map(async (postId) => {
+        const post = await Post.findById(postId);
+        if(post.author.equals(user._id)){
+          return post;
+        }
+        return null;
+      })
+    )
+
     user = {
       _id: user._id,
       email: user.email,
@@ -78,7 +89,7 @@ export const login = async (req, res) => {
       gender: user.gender,
       followers: user.followers,
       following: user.following,
-      posts: user.posts,
+      posts: populatePost,
       bookmarks: user.bookmarks
     };
 
