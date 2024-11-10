@@ -1,5 +1,5 @@
 // for chatting 
-import {Conversation} from "../models/conversation.model.js"
+import {Conversation} from "../models/conversation.models.js"
 export const sendMessage = async(req, res)=>{
     try {
         const senderId = req.id;

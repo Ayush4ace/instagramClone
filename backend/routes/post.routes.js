@@ -1,6 +1,7 @@
 import express from "express";
-import { addComment, addPost, bookmarkPost, deletePost, dislikePost, getAllPost, getCommentOfPost, getUserPost, likePost } from "../controllers/post.controller";
-
+import { addComment, addPost, bookmarkPost, deletePost, dislikePost, getAllPost, getCommentOfPost, getUserPost, likePost } from "../controllers/post.controller.js";
+import isAuthenticated from "../middlewares/isAuthenticated.js";
+import upload from "../middlewares/multer.js";
 const router = express.Router();
 
 router.route("/addPost").post(isAuthenticated, upload.single('image'), addPost);
